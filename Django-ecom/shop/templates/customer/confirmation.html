@@ -1,0 +1,26 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+
+    <h1>Order Confirmation</h1>
+
+<p>Order Number: {{ order.id }}</p>
+<p>Order Date: {{ order.order_date }}</p>
+<p>Total Amount: ${{ order.total_amount }}</p>
+<p>Status: {{ order.status }}</p>
+
+<!-- Add any other order details you want to display -->
+
+<p>Thank you for your order!</p>
+
+
+    {% endblock %}
+</body>
+</html>

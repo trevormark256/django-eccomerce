@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% block content %}    
+    <h3>Contact Form</h3>
+  
+
+    {% if messo %}
+<div class="alert alert-success alert-dismissible d-flex align-items-center" role="alert">
+   
+    <div>
+       your email {{ messo }} thank you 
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+   <form method="POST" action="{% url 'contact_us' %}">
+    {% csrf_token %}
+    <input type="text" name="customer_name" placeholder="Your Name...">
+    <input type="email" name="customer_email" placeholder="Your Email...">
+    <textarea name="message" placeholder="Message..."></textarea>
+    <input type="submit" />
+</form>
+
+    
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,92 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<head>
+ <!-- Include your JavaScript code here (before the closing </head> tag) -->
+ <script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const removeButtons = document.querySelectorAll(".remove-from-cart");
+
+      removeButtons.forEach(button => {
+          button.addEventListener("click", function(event) {
+              event.preventDefault(); // Prevent the default form submission
+
+              const cartItemId = button.dataset.cartItemId;
+
+              // Send an AJAX request to remove the item
+              fetch(`/remove_from_cart/${cartItemId}/`)
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          // If removal was successful, update the cart count
+                          const cartCountElement = document.querySelector("#cart-count");
+                          const cartCount = parseInt(cartCountElement.textContent) - 1;
+                          cartCountElement.textContent = cartCount;
+
+                          // Remove the cart item from the DOM
+                          const cartItem = button.closest(".list-group-item");
+                          cartItem.remove();
+                      } else {
+                          // Handle error or display a message if removal failed
+                          console.error("Item removal failed.");
+                      }
+                  });
+          });
+      });
+  });
+</script>
+
+<style>
+   
+
+    .card-img {
+    max-width: 200px;
+    max-height: 300px; /* Maintain aspect ratio */
+    }
+
+
+</style>
+
+</head>
+<body>
+
+{% block content %}
+<div class="favorite-products">
+  <h2>Your Favorite Products</h2>
+  {% if user_favorites %}
+    <div class="row m-2">
+      {% for favorite in user_favorites %}
+        <div class="col-md-4 col-sm-5 mb-4 col-lg-3 container">
+          <div class="image-container">
+            <div class="card">
+              <a class="btn btn-danger" href="{% url 'remove_from_favorites' favorite.product.id %}">Remove from Favorites</a>
+              <img src="{{ favorite.product.product_image1.url }}" alt="{{ favorite.product.name }} Image 1" class="container" style="max-height: 400px; max-width: 300px;">
+              <form method="POST" action="{% url 'add_to_cart' favorite.product.id %}">
+                {% csrf_token %}
+                <button type="submit" class=" container btn btn-primary ">
+                  Add to Cart
+                </button>
+              </form>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ favorite.product.name }}</h5>
+              <h5 class="card-title">${{ favorite.product.price }}</h5>
+              <!-- Add more details about the product as needed -->
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>You haven't added any products to your favorites yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
+</body>
+<html>

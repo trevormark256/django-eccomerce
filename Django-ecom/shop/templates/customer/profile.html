@@ -1,0 +1,56 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .user-image {
+          width: 100px; /* Set the width and height to your desired size */
+          height: 100px;
+          border-radius: 50%; /* Create a circular shape with border-radius */
+          object-fit: cover; /* Maintain the aspect ratio and cover the container */
+          border: 2px solid #fff; /* Add a border around the circular image */
+      }
+  </style>
+  
+  </head>
+<body>
+    {% block content %}
+
+
+      <div class="container mt-5">
+        <h2>Your Profile</h2>
+    <div class="container" >
+        <img src="{{ profile.Image.url }}" alt="User Image" class="  user-image">
+      </div>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>User Information</h4>
+            <ul class="list-group">
+              <li class="list-group-item">Username: {{ user.username }}</li>
+              <li class="list-group-item">First Name: {{ user.first_name }}</li>
+              <li class="list-group-item">Last Name: {{ user.last_name }}</li>
+              <li class="list-group-item">Email: {{ user.email }}</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h4>Profile Information</h4>
+            <ul class="list-group">
+
+              <li class="list-group-item">Address: {{ profile.address }}</li>
+              <li class="list-group-item">Mobile: {{ profile.mobile }}</li>
+              <!-- Add other profile fields here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+ <a href="{% url 'update_profile' %}" class="btn btn-primary">Edit Profile</a>
+  
+
+    {% endblock %}
+    
+
+</body>
+</html>
