@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<style>
+ 
+</style>
+</head>
+<body>
+    {% block content %}
+    <div class=" d-flex flex-column align-items-center justify-content-center  vh-100">
+ {% if page == 'login' %}
+ {% for message in messages %}
+  <div class=" w-100 text-center mt-2 alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+   <strong class="text-center ">{{ message.message }}</strong>
+   <button type="button" class="p-1 btn-small btn-close m-0" data-bs-dismiss="alert" aria-label="Close"></button>
+ </div>
+
+ {% endfor %}
+ <div class=" m-auto card bg-dark container text-white col-8 col-md-6 p-4 " >
+    <h1 class=" text-white d-flex justify-content-center" >
+    login
+    </h1>
+ 
+<form  class=" "  method="POST"  action="" >
+    {% csrf_token %}
+    <div class="mb-3">
+        <label>username</label>
+        <input type="text" class="form-control" name="username" placeholder="username"  required>
+        </div>
+    <div class="mb-3">
+        <label>password</label>
+         <input type="password" name="password" class="form-control" placeholder="password">
+    </div>
+    <div class=" form-check">
+             </div >
+    <div  class="d-flex justify-content-center" >
+    <button type="submit" class="  btn btn-primary">Submit</button>
+
+</div >
+<div class="m-3" >dont have an account   <a href=" {% url 'register' %}">  register</a>  
+</div>
+</form>
+</div>
+   {% else %}
+   <div class="card bg-dark container text-white col-10 col-md-6 p-4  " >
+<h1 class="d-flex  text-white justify-content-center " >register</h1>
+  <form method="POST" action="" >
+    {% csrf_token %}
+
+    {% for field in form %}
+   <div class="container" >{{field.label}}</div> 
+{{field}}
+{% if field.errors %}
+<div class=" mt-2 alert alert-danger alert-dismissible fade show" role="alert">
+   <strong class="text-center" >{{field.errors}}</strong>
+    <button type="button" class=" p-1 btn-small  btn-close m-0 " data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endif %}
+
+   {% endfor %}
+    <div  class="d-flex m-2 justify-content-center" >
+        <button type="submit" class="  btn btn-primary">Submit</button>
+    
+    </div>
+    <p class="m-3" >
+already have an account  <a href="{% url 'login' %}"> login</a></p>
+</form>
+</div>
+{% endif %}
+</div>
+{% endblock %}
+</body>
+</html>

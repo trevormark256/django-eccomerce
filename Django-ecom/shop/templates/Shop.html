@@ -1,0 +1,410 @@
+{% load tz %}
+{% load static %}
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <style>
+  
+  .transparent-button {
+    background-color: transparent;
+    border: 2px solid #00af75;
+    color: #000000;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.transparent-button:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+
+.new {
+    margin-bottom: 10px;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+     /* Adjust this value to match your design */
+    /* Additional styling for the container if needed */
+}
+
+.new h2 {
+    color: red;
+    padding: 20px;
+    text-align: center;
+    margin: 0;
+    /* Additional styling for the heading if needed */
+}
+
+.cardis {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust the minimum width as needed */
+    grid-gap: 20px; /* Adjust the spacing between items as needed */
+    align-items: center; /* Vertically align items in the center of each grid cell */
+    justify-items: center; /* Horizontally align items in the center of each grid cell */
+    background-color: aliceblue;
+    padding: 60px 10px  ;
+    border-radius: 10px;
+    
+}
+.product {
+    /* Your existing product styling here */
+    margin: 0;
+    padding: 0;
+}
+
+
+.image-container {
+    position: relative;
+    width: 200px;
+    height: 300px;
+   
+}
+
+.front-image,
+.back-image {
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: z-index 0.9s  opacity 0.5s ;
+}
+
+.front-image {
+    z-index: 2; /* Front image initially on top */
+}
+
+.back-image {
+    z-index: 1; /* Back image initially at the bottom */
+    opacity: 0; /* Hide the back image initially */
+}
+
+.image-container:hover .front-image {
+    z-index: 1; /* Bring front image to the back on hover */
+    opacity: 0; /* Hide front image on hover */
+}
+
+.image-container:hover .back-image {
+    z-index: 2; /* Bring back image to the top on hover */
+    opacity: 1; /* Show back image on hover */
+}
+
+.hover-button:hover{
+
+    background-color: rgb(0, 114, 38);
+
+}
+
+.hover-button {
+    position: absolute;
+    bottom: 0px; /* Initially positioned below the container */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s, bottom 0.5s; /* Add transitions for opacity and bottom */
+}
+
+.image-container:hover .hover-button {
+    z-index: 4;
+    opacity: 2;
+    bottom: 50px; /* Slide up from the bottom */
+}
+
+.image-container:not(:hover) .hover-button {
+    opacity: 1;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+/* Show the button container and button on hover */
+.carousel-item:hover .hover-button-container {
+    opacity: 1;
+}
+.image-icons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column; /* Display icons in a column */
+    align-items: center;
+    gap: 10px;
+    color: white;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s; /* Add a transition for opacity */
+
+}
+.image-iconsl {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column; /* Display icons in a column */
+    align-items: center;
+    gap: 10px;
+    color: rgb(0, 0, 0);
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s; /* Add a transition for opacity */
+
+}
+
+.image-container:hover .image-icons {
+    opacity: 1; /* Show the icons on hover */
+    z-index: 2;
+}
+.image-container:hover .image-iconsl {
+    opacity: 1; /* Show the icons on hover */
+    z-index: 2;
+}
+
+.image-icons i {
+    font-size: 20px;
+    cursor: pointer;
+    color: black;
+    background-color: white;
+    padding: 4px;
+}
+.image-iconsl i {
+    font-size: 20px;
+     padding: 4px;
+}
+.ico:hover{
+    
+    padding: 5px;
+    border-radius: 10px;
+}
+
+
+
+body {
+    background-image: url('https://cdn.pixabay.com/photo/2023/08/13/00/09/woman-8186582_1280.jpg'); /* Replace with your image URL */
+    background-size: cover; /* Cover the entire viewport */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Fixed background image */
+}
+
+
+
+.custom-carousel {
+    height: 80vh !important; /* Add !important to ensure it overrides other styles if needed */
+      
+  }
+
+.custom-carouselsm{
+   height: 30vh !important ;
+}
+
+.carousel-inner {
+    height: 100%; /* Ensure the inner content expands to fill the custom-carousel height */
+    overflow: hidden; /* Hide any content that overflows the carousel container */
+
+}
+
+.carousel-inners {
+    height: 100%; /* Ensure the inner content expands to fill the custom-carousel height */
+    overflow: hidden; /* Hide any content that overflows the carousel container */
+
+}
+.carousel-item {
+    height: 100%; /* Ensure each item within the carousel also fills the carousel-inner height */
+}
+
+
+
+/* Center the images vertically within each carousel-item */
+.carousel-item img {
+    max-height: 100%;
+    max-width: 100%; /* Set a maximum width to prevent stretching */
+    min-height: 90%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    
+}
+.green {
+    color: green;
+}
+
+.modal-small img {
+        max-height: 400px; /* Adjust the height as needed */
+    }
+
+
+    </style>
+
+</head>
+<body>
+  
+    <form method="GET" class="container col-6 ">
+        <div class="form-group">
+            <label for="sort" class="mr-2">Sort by:</label>
+            <select id="sort" name="sort" class="form-control mr-2">
+                <option value="">Default</option>
+                <option value="alphabetical">A-Z</option>
+                <option value="desc_alphabetical">Z-A</option>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label for="category" class="mr-2">Category:</label>
+            <select id="category" name="category" class="form-control mr-2">
+                <option value="">All</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="form-group my-3 ">
+            <input  type="text"  name="search_query" placeholder="Search entire store..." class="form-control mr-2">
+        </div>
+
+        <label for="min_price">Min Price:</label>
+        <input type="number" class="form-control" id="min_price" name="min_price" value="{{ request.GET.min_price }}" placeholder="Min Price">
+    
+        <label class="m-2" for="max_price">Max Price:</label>
+        <input class="form-control" type="number" id="max_price" name="max_price" value="{{ request.GET.max_price }}" placeholder="Max Price">
+        
+
+  
+        <button type="submit" class=" btn btn-primary">Apply Filters</button>
+    </form>
+    
+    <div id="notification" class="alert alert-success d-none" role="alert">
+        Product added to cart!
+    </div>
+<div class="new" >
+    <h2 class=" " > PRODUCTS</h2>
+</div>
+
+<div class=" cardis" >
+    {% for product in products %}
+    <div class="product" >
+
+        <div class="image-container">
+          <img src="{{product.product_image1.url}}" alt="Fashion Image 4" alt="Front Image" class="front-image">
+          <img src="{{product.product_image2.url}}" alt="Fashion Image 3"    alt="Third slide" alt="Back Image" class="back-image">  
+          
+       <!-- Add to Cart button with data-product-id attribute -->
+<button class="btn btn-primary add-to-cart  hover-button" data-product-id="{{ product.id }}">Add to Cart</button>
+
+{% if product.id in user_favorites %}
+<div class="image-iconsl">
+    <button class="btn">
+      <img src="https://img.freepik.com/premium-vector/red-heart-isolated-transparent-background-happy-valentine-s-day-greeting-template_11554-990.jpg?size=626&ext=jpg&ga=GA1.2.1801108108.1694270237&semt=ais" alt="already in favourites" style="width: 20px; height: 20px; ">
+        <!-- Favorite Icon -->
+    </button>
+    
+<i class="fas fa-search ico zoom-icon" style="cursor: pointer;" data-toggle="modal" data-target="#productModal{{ product.id }}"></i>
+</div>
+{% else %}
+<div class="image-icons">
+    <form method="POST" action="{% url 'add_to_favorites' product.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn" >
+            <i class="far fa-heart ico "></i>
+            <!-- Favorite Icon -->
+        </button>
+    </form>
+    <i class="fas fa-search ico zoom-icon" data-toggle="modal" data-target="#productModal{{ product.id }}"></i>
+ </div>
+{% endif %}
+
+
+
+          
+      </div>
+      <div class="product-details">
+          <h3 class="item-name">{{product.name}}</h3>
+          <b class="item-price" style="color: red;">${{ product.price }}</b>
+
+      </div>
+  </div>
+
+{% endfor %}
+</div>    
+</div>
+    
+</div>    
+</div>
+
+
+{% for product in products %}
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="productModal{{ product.id }}" tabindex="-1" aria-labelledby="productModalLabel{{ product.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel{{ product.id }}">product overview</h5>
+                <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ product.product_image1.url }}" alt="Product Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-6">
+                        <h2>name</h2>
+                        <p>{{ product.name }}</p> <!-- Add product description here -->
+                        
+
+                        <h2>description</h2>
+                        <p>{{ product.description }}</p> <!-- Add product description here -->
+                        
+              
+
+                        
+              <form method="POST" action="{% url 'add_to_favorites' product.id %}">
+                {% csrf_token %}
+                <button type="submit" class=" btn {% if product in user_favorites %}favorite{% endif %}">
+            add to favorites  <i class="far fa-heart ico {% if product in user_favorites %}green{% endif %}"></i> <!-- Favorite Icon -->
+              
+              </button></form>
+                        
+              <h3>${{product.price}}</h3>
+
+                        <button type="button" class="btn btn-primary mt-2 container  ">Add to Cart</button> <!-- Add to Cart button -->
+                    
+                    <a href="" >view more</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+<footer class="bg-dark text-light text-center py-3 my-2">
+    <div class="container ">
+        <ul class="list-unstyled d-flex ">
+                &copy; {% now "jS F Y " %}
+         Contact Us:
+         <i class="fas fa-map-marker-alt  m-2"></i> Location
+         <i class="far fa-envelope m-2 "></i> Email
+         <i class="fas fa-phone  m-2"></i> Call
+ 
+        </ul>
+    </div>
+</footer>
+
+</body>
+</html>
