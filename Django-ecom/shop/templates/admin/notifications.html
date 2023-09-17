@@ -1,0 +1,64 @@
+{% extends 'admin/navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+</head>
+<body>
+    {% block content %}
+
+<div class="container" >
+    <h2 class="text-center" >Limited Products</h2>
+    <table class="table table-striped" >
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Status</th>
+                <th>items left</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in limited_products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.status }}</td>
+                <td>{{product.product_quantity }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">No limited products</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2  class="text-center" >Out of Stock Products</h2>
+    <table class="table table-striped text-center "  >
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in out_of_stock_products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td class=" text-white bg-danger" >{{ product.status }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td class="text-center" colspan="4">
+                       <h1> No  out of stock products </h1> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    {% endblock %}
+</body>
+</html>
+

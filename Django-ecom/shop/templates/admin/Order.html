@@ -1,0 +1,161 @@
+{% extends 'admin/navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+
+    <!-- Add a link to include Font Awesome icons CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+Jnujsl5+z0I5t9z5lFfGz5p5zazxEfF5B5C5m5L5z5r5Z5I5N" crossorigin="anonymous">
+    
+    <style>
+        /* Set the container height to viewport height */
+        .containers {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Style your status icons as needed */
+        .pending-icon { color: orange; }
+        .completed-icon { color: green; }
+        .failed-icon { color: red; }
+    </style>
+</head>
+<body>
+    {% block content %}
+    
+    <div class="containers container mx-auto">
+        <form method="GET" class="col-8 d-flex container">
+            <div class="input-group">
+                {{ search_form.search_query }}
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <h1 class="text-center">Order List</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Order Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>view item orders</th>
+                    <th>Delete</th> <!-- Add this column -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.user.username }}</td>
+                        <td>{{ order.order_date }}</td>
+                        <td>${{ order.total_amount }}</td>
+                        <td>
+                            <!-- Display the current order status -->
+                            {% if order.status == 'Pending' %}
+                                <i class="fas fa-clock pending-icon"></i>
+                            {% elif order.status == 'Completed' %}
+                                <i class="fas fa-check completed-icon"></i>
+                            {% elif order.status == 'Failed' %}
+                                <i class="fas fa-times failed-icon"></i>
+                            {% endif %}
+                            {{ order.status }}
+                        </td>
+                        <td>
+                            <!-- Create a form for updating the order status -->
+                            <form method="post" action="{% url 'update_order_status' order.id %}">
+                                {% csrf_token %}
+                                <select name="new_status" class="form-control">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Failed">Failed</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary">Update Status</button>
+                            </form>
+                        </td>
+                        <td>
+
+                         
+
+<!-- Button trigger modal -->
+<a href="{% url 'order_details_admin' order.id %}"><button type="button" class="btn btn-primary" >
+    {{ order.id }} View More <i class="fas fa-search-plus"></i>
+  </button>  </a>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+                        </td>
+                        <td>
+                           <!-- Button trigger modal -->
+                           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteOrderModal{{ order.id }}">
+                            Delete
+                        </button>
+  
+ 
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if no_results_message %}
+    <div class="alert alert-danger mt-3">
+        {{ no_results_message }}
+    </div>
+{% endif %}
+    </div>
+ <!-- Modal -->
+ {% for order in orders %}
+<!-- Modal for order deletion confirmation -->
+<div class="modal fade" id="deleteOrderModal{{ order.id }}" tabindex="-1" aria-labelledby="deleteOrderModalLabel" aria-hidden="true">
+  
+<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteOrderModalLabel">Confirm Order Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete order {{order.id}}?</p>
+                <form method="POST" action="{% url 'delete_order' order.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endfor %}
+
+{% endblock %}
+
+</body>
+</html>

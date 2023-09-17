@@ -1,0 +1,87 @@
+{% extends 'admin/navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+    
+    </style>
+</head>
+<body>
+
+{% block content %}
+<div class="container m-4">
+    <h1>Edit User</h1>
+    <form id="edit-form" method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="first_name" class="form-label">First Name:</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ user.first_name }}" >
+         </div>
+         <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ user.last_name }}" >
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" >
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" >
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <div class="input-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Leave blank to keep current password">
+                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                    <i class="fas fa-eye" id="eyeIcon"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="user_group" class="form-label">User role:</label>
+            {% for group in user.groups.all %}
+         <h4>  current role: {{ group.name }}</h4>
+     
+        <select id="user_group" name="user_group" class="form-select">
+            <option value="admin" {% if  group.name == 'admin' %}selected{% endif %}>Admin</option>
+
+            <option value="customer" {% if group.name == 'customer' %}selected{% endif %}>customer</option>
+                   </select>
+                   {% endfor %}
+        </div>
+        
+        
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const togglePasswordButton = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+
+        togglePasswordButton.addEventListener("click", function() {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                togglePasswordButton.classList.remove("fa-eye");
+                togglePasswordButton.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                togglePasswordButton.classList.remove("fa-eye-slash");
+                togglePasswordButton.classList.add("fa-eye");
+            }
+        });
+    });
+</script>
+{% endblock %}
+</body>
+</html>
+

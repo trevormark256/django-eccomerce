@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   
+
+{% block content %}
+  <h2>Confirm Deletion</h2>
+  <p>Are you sure you want to delete the product "{{ product.name }}"?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Delete</button>
+    <a href="{% url 'product-list' %}">Cancel</a>
+  </form>
+{% endblock %}
+
+</body>
+</html>

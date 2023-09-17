@@ -1,0 +1,84 @@
+{% extends 'admin/adminnav.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    {% block content %}
+    <div class="container">
+        <!-- Navigation Bar -->
+        <!-- Your navigation bar code goes here -->
+
+        <!-- Add Category Button -->
+        <div class="row mt-4">
+            <div class="col-12 d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1">
+                    Add Category
+                </button>
+            </div>
+        </div>
+
+        <!-- Rest of your content here -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in category %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td><a href="{% url 'delete_category' category.id %}">
+                        <i class="fas fa-trash-alt btn btn-danger "></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">add category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Modal content here -->
+                    <div class=" bg-dark text-white p-4 ">
+                        <!-- Add product form here -->
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                            {{form.errors}}
+                            </div>
+                            {% endif %}
+                            {{ form.as_p }}
+                            <div class="modal-footer">
+                  
+                            <button type="submit" class=" btn btn-primary">submit</button>
+                       </div>
+                        </form>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+</html>

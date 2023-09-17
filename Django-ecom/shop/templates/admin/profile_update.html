@@ -1,0 +1,25 @@
+{% extends 'admin/navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center vh-100">
+          <div class="col-sm-8 col-lg-6 col-8 card p-4">
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button class="btn btn-success" type="submit">Update Profile</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+{% endblock %}
+</body>
+</html>
