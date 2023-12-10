@@ -72,18 +72,7 @@ step-by-step instructions on how to install your eCommerce web app locally.  dep
 4. Apply migrations: `python manage.py migrate`
 5. Start the development server: `python manage.py runserver`
 
-Admin dashbord
-![Screenshot (1)](https://github.com/trevormark256/django-eccomerce/assets/117260679/0830c2c0-cd3e-4b66-b99d-31467c9850ee)
-![Screenshot (4)](https://github.com/trevormark256/django-eccomerce/assets/117260679/2e9f8739-a02b-462b-b120-3083ab![Screenshot (5)](https://github.com/trevormark256/django-eccomerce/assets/117260679/519dbaf7-9382-4b97-b832-93ea38e41004)
-57e459)
-
-
-Customer view
-![Screenshot (6)](https://github.com/trevormark256/django-eccomerce/assets/117260679/c815004b-c83b-49fb-9dad-6b7bab33be2a)
-![Screenshot (8)](https://github.com/trevormark256/django-eccomerce/assets/117260679/536f1937-19fd-4055-a7b8-a6326157c163)
-
-![Screenshot (7)](https://github.com/trevormark256/django-eccomerce/assets/117260679/8f6541ea-7091-413a-b483-e37fc6dacf3f)
-
+## The project ui foldr in the root directory contains screenshots of how th system looks like please check it out 
 
 License
 This project is licensed under the TMT License 
