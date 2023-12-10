@@ -72,7 +72,7 @@ step-by-step instructions on how to install your eCommerce web app locally.  dep
 4. Apply migrations: `python manage.py migrate`
 5. Start the development server: `python manage.py runserver`
 
-## The project ui foldr in the root directory contains screenshots of how th system looks like please check it out 
+## The project ui folder in the root directory contains screenshots of how the system looks like please check it out 
 
 License
 This project is licensed under the TMT License 
